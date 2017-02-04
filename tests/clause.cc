@@ -25,8 +25,8 @@ TEST(ClauseTest, valid_invalid) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
   const Symbol::Sort s2 = sf.CreateSort();
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));
   //const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));
   const Symbol f = sf.CreateFunction(s1, 1);
@@ -64,9 +64,9 @@ TEST(ClauseTest, Subsumes) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
   const Symbol::Sort s2 = sf.CreateSort();
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));
-  const Term n3 = tf.CreateTerm(sf.CreateName(s2));
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));
+  const Term n3 = tf.CreateTerm(sf.CreateName(s2, 0));
   //const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));
   //const Term x3 = tf.CreateTerm(sf.CreateVariable(s2));
@@ -169,8 +169,8 @@ TEST(ClauseTest, Subsumes2) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
   //const Symbol::Sort s2 = sf.CreateSort();
-  const Term n = tf.CreateTerm(Symbol::Factory::CreateName(1, s1));
-  const Term m = tf.CreateTerm(Symbol::Factory::CreateName(2, s1));
+  const Term n = tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0));
+  const Term m = tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0));
   const Term a = tf.CreateTerm(Symbol::Factory::CreateFunction(1, s1, 0), {});
   //const Term b = tf.CreateTerm(Symbol::Factory::CreateFunction(2, s1, 0), {});
   //const Term fn = tf.CreateTerm(Symbol::Factory::CreateFunction(3, s1, 1), {n});
@@ -188,8 +188,8 @@ TEST(ClauseTest, Subsumes3) {
   Symbol::Factory& sf = *Symbol::Factory::Instance();
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort Bool = sf.CreateSort();
-  const Term T = tf.CreateTerm(sf.CreateName(Bool));
-  const Term F = tf.CreateTerm(sf.CreateName(Bool));
+  const Term T = tf.CreateTerm(sf.CreateName(Bool, 0));
+  const Term F = tf.CreateTerm(sf.CreateName(Bool, 0));
   const Term P = tf.CreateTerm(sf.CreateFunction(Bool, 0));
 
   EXPECT_TRUE(Clause{Literal::Eq(P,T)}.Subsumes(Clause{Literal::Eq(P,T)}));

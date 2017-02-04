@@ -2,12 +2,12 @@
 
 Sort OBJ
 Var x -> OBJ
-Name n -> OBJ
+Name n/0 -> OBJ
 Fun c/0 -> OBJ
 
 Sort BOOL
 Fun p/1 -> BOOL
-Name T -> BOOL
+Name T/0 -> BOOL
 
 KB: p(c) = T
 

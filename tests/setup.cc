@@ -21,8 +21,8 @@ TEST(SetupTest, Subsumes_Consistent_clauses) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort(); RegisterSort(s1, "");
   //const Symbol::Sort s2 = sf.CreateSort();
-  const Term n = tf.CreateTerm(Symbol::Factory::CreateName(1, s1));
-  const Term m = tf.CreateTerm(Symbol::Factory::CreateName(2, s1));
+  const Term n = tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0));
+  const Term m = tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0));
   const Term a = tf.CreateTerm(Symbol::Factory::CreateFunction(1, s1, 0), {});
   //const Term b = tf.CreateTerm(Symbol::Factory::CreateFunction(2, s1, 0), {});
   const Term fn = tf.CreateTerm(Symbol::Factory::CreateFunction(3, s1, 1), {n});

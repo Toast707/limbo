@@ -6,11 +6,11 @@ Sort BOOL
 Variable x -> HUMAN
 Variable y -> HUMAN
 
-Name Mary -> HUMAN
-Name Frank -> HUMAN
-Name Fred -> HUMAN
-Name Sonny -> HUMAN
-Name True -> BOOL
+Name Mary/0 -> HUMAN
+Name Frank/0 -> HUMAN
+Name Fred/0 -> HUMAN
+Name Sonny/0 -> HUMAN
+Name True/0 -> BOOL
 
 Function fatherOf/1 -> HUMAN
 Function motherOf/1 -> HUMAN

@@ -34,7 +34,7 @@ struct Logger : public lela::format::pdl::DefaultLogger {
   void operator()(const RegisterData& d)               const { std::cerr << "Registered " << d.id << std::endl; }
   void operator()(const RegisterSortData& d)           const { std::cerr << "Registered sort " << d.id << std::endl; }
   void operator()(const RegisterVariableData& d)       const { std::cerr << "Registered variable " << d.id << " of sort " << d.sort_id << std::endl; }
-  void operator()(const RegisterNameData& d)           const { std::cerr << "Registered name " << d.id << " of sort " << d.sort_id << std::endl; }
+  void operator()(const RegisterNameData& d)           const { std::cerr << "Registered name symbol " << d.id << " with arity " << int(d.arity) << " of sort " << d.sort_id << std::endl; }
   void operator()(const RegisterFunctionData& d)       const { std::cerr << "Registered function symbol " << d.id << " with arity " << int(d.arity) << " of sort " << d.sort_id << std::endl; }
   void operator()(const RegisterMetaVariableData& d)   const { std::cerr << "Registered meta variable " << d.id << " for " << d.term << std::endl; }
   void operator()(const RegisterFormulaData& d)        const { std::cerr << "Registered formula " << d.id << " as " << *d.phi << std::endl; }

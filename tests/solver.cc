@@ -25,12 +25,12 @@ TEST(SolverTest, Entails) {
   {
     Context ctx;
     Solver& solver = *ctx.solver();
-    auto Bool = ctx.CreateSort();                RegisterSort(Bool, "");
-    auto True = ctx.CreateName(Bool);            REGISTER_SYMBOL(True);
-    auto Human = ctx.CreateSort();               RegisterSort(Human, "");
-    auto Sonny = ctx.CreateName(Human);          REGISTER_SYMBOL(Sonny);
-    auto Mary = ctx.CreateName(Human);           REGISTER_SYMBOL(Mary);
-    auto Frank = ctx.CreateName(Human);          REGISTER_SYMBOL(Frank);
+    auto Bool = ctx.CreateSort();                     RegisterSort(Bool, "");
+    auto True = ctx.CreateName(Bool, 0)();            REGISTER_SYMBOL(True);
+    auto Human = ctx.CreateSort();                    RegisterSort(Human, "");
+    auto Sonny = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Sonny);
+    auto Mary = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Mary);
+    auto Frank = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Frank);
     auto Father = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Father);
     auto Mother = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Mother);
     auto IsParentOf = ctx.CreateFunction(Bool, 2);    REGISTER_SYMBOL(IsParentOf);
@@ -50,13 +50,13 @@ TEST(SolverTest, Entails) {
   {
     Context ctx;
     Solver& solver = *ctx.solver();
-    auto Bool = ctx.CreateSort();                RegisterSort(Bool, "");
-    auto True = ctx.CreateName(Bool);            REGISTER_SYMBOL(True);
-    auto Human = ctx.CreateSort();               RegisterSort(Human, "");
-    auto Sonny = ctx.CreateName(Human);          REGISTER_SYMBOL(Sonny);
-    auto Mary = ctx.CreateName(Human);           REGISTER_SYMBOL(Mary);
-    auto Frank = ctx.CreateName(Human);          REGISTER_SYMBOL(Frank);
-    auto Fred = ctx.CreateName(Human);           REGISTER_SYMBOL(Fred);
+    auto Bool = ctx.CreateSort();                     RegisterSort(Bool, "");
+    auto True = ctx.CreateName(Bool, 0)();            REGISTER_SYMBOL(True);
+    auto Human = ctx.CreateSort();                    RegisterSort(Human, "");
+    auto Sonny = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Sonny);
+    auto Mary = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Mary);
+    auto Frank = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Frank);
+    auto Fred = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Fred);
     auto Father = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Father);
     auto Mother = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Mother);
     auto IsParentOf = ctx.CreateFunction(Bool, 2);    REGISTER_SYMBOL(IsParentOf);
@@ -76,14 +76,14 @@ TEST(SolverTest, Entails) {
   {
     Context ctx;
     Solver& solver = *ctx.solver();
-    auto Bool = ctx.CreateSort();                RegisterSort(Bool, "");
-    auto True = ctx.CreateName(Bool);            REGISTER_SYMBOL(True);
-    auto Human = ctx.CreateSort();               RegisterSort(Human, "");
-    auto Sonny = ctx.CreateName(Human);          REGISTER_SYMBOL(Sonny);
-    auto Mary = ctx.CreateName(Human);           REGISTER_SYMBOL(Mary);
-    auto Frank = ctx.CreateName(Human);          REGISTER_SYMBOL(Frank);
-    auto Fred = ctx.CreateName(Human);           REGISTER_SYMBOL(Fred);
-    auto Fox = ctx.CreateName(Human);            REGISTER_SYMBOL(Fox);
+    auto Bool = ctx.CreateSort();                     RegisterSort(Bool, "");
+    auto True = ctx.CreateName(Bool, 0)();            REGISTER_SYMBOL(True);
+    auto Human = ctx.CreateSort();                    RegisterSort(Human, "");
+    auto Sonny = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Sonny);
+    auto Mary = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Mary);
+    auto Frank = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Frank);
+    auto Fred = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Fred);
+    auto Fox = ctx.CreateName(Human, 0)();            REGISTER_SYMBOL(Fox);
     auto Father = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Father);
     auto Mother = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Mother);
     auto IsParentOf = ctx.CreateFunction(Bool, 2);    REGISTER_SYMBOL(IsParentOf);
@@ -103,12 +103,12 @@ TEST(SolverTest, Consistent) {
   {
     Context ctx;
     Solver& solver = *ctx.solver();
-    auto Bool = ctx.CreateSort();                RegisterSort(Bool, "");
-    auto True = ctx.CreateName(Bool);            REGISTER_SYMBOL(True);
-    auto Human = ctx.CreateSort();               RegisterSort(Human, "");
-    auto Sonny = ctx.CreateName(Human);          REGISTER_SYMBOL(Sonny);
-    auto Mary = ctx.CreateName(Human);           REGISTER_SYMBOL(Mary);
-    auto Frank = ctx.CreateName(Human);          REGISTER_SYMBOL(Frank);
+    auto Bool = ctx.CreateSort();                     RegisterSort(Bool, "");
+    auto True = ctx.CreateName(Bool, 0)();            REGISTER_SYMBOL(True);
+    auto Human = ctx.CreateSort();                    RegisterSort(Human, "");
+    auto Sonny = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Sonny);
+    auto Mary = ctx.CreateName(Human, 0)();           REGISTER_SYMBOL(Mary);
+    auto Frank = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(Frank);
     auto Father = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Father);
     auto Mother = ctx.CreateFunction(Human, 1);       REGISTER_SYMBOL(Mother);
     auto IsParentOf = ctx.CreateFunction(Bool, 2);    REGISTER_SYMBOL(IsParentOf);
@@ -129,11 +129,11 @@ TEST(SolverTest, Consistent) {
 TEST(SolverTest, KR2016) {
   Context ctx;
   Solver& solver = *ctx.solver();
-  auto Human = ctx.CreateSort();             RegisterSort(Human, "");
-  auto sue = ctx.CreateName(Human);          REGISTER_SYMBOL(sue);
-  auto jane = ctx.CreateName(Human);         REGISTER_SYMBOL(jane);
-  auto mary = ctx.CreateName(Human);         REGISTER_SYMBOL(mary);
-  auto george = ctx.CreateName(Human);       REGISTER_SYMBOL(george);
+  auto Human = ctx.CreateSort();                  RegisterSort(Human, "");
+  auto sue = ctx.CreateName(Human, 0)();          REGISTER_SYMBOL(sue);
+  auto jane = ctx.CreateName(Human, 0)();         REGISTER_SYMBOL(jane);
+  auto mary = ctx.CreateName(Human, 0)();         REGISTER_SYMBOL(mary);
+  auto george = ctx.CreateName(Human, 0)();       REGISTER_SYMBOL(george);
   auto father = ctx.CreateFunction(Human, 1);     REGISTER_SYMBOL(father);
   auto bestFriend = ctx.CreateFunction(Human, 1); REGISTER_SYMBOL(bestFriend);
   solver.AddClause(( bestFriend(mary) == sue || bestFriend(mary) == jane ).as_clause());
@@ -154,16 +154,16 @@ TEST(SolverTest, KR2016) {
 TEST(SolverTest, ECAI2016Sound) {
   Context ctx;
   Solver& solver = *ctx.solver();
-  auto Bool = ctx.CreateSort();              RegisterSort(Bool, "");
-  auto Food = ctx.CreateSort();              RegisterSort(Food, "");
-  auto T = ctx.CreateName(Bool);             REGISTER_SYMBOL(T);
-  //auto F = ctx.CreateName(Bool);             REGISTER_SYMBOL(F);
+  auto Bool = ctx.CreateSort();                   RegisterSort(Bool, "");
+  auto Food = ctx.CreateSort();                   RegisterSort(Food, "");
+  auto T = ctx.CreateName(Bool, 0)();             REGISTER_SYMBOL(T);
+  //auto F = ctx.CreateName(Bool, 0)();             REGISTER_SYMBOL(F);
   auto Aussie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Aussie);
   auto Italian = ctx.CreateFunction(Bool, 0)();   REGISTER_SYMBOL(Italian);
   auto Eats = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Eats);
   auto Meat = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Meat);
   auto Veggie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Veggie);
-  auto roo = ctx.CreateName(Food);           REGISTER_SYMBOL(roo);
+  auto roo = ctx.CreateName(Food, 0)();           REGISTER_SYMBOL(roo);
   auto x = ctx.CreateVariable(Food);              REGISTER_SYMBOL(x);
   solver.AddClause(( Meat(roo) == T ).as_clause());
   solver.AddClause(( Meat(x) != T ||  Eats(x) != T ||  Veggie != T ).as_clause());
@@ -178,16 +178,16 @@ TEST(SolverTest, ECAI2016Sound) {
 TEST(SolverTest, ECAI2016Complete) {
   Context ctx;
   Solver& solver = *ctx.solver();
-  auto Bool = ctx.CreateSort();              RegisterSort(Bool, "");
-  auto Food = ctx.CreateSort();              RegisterSort(Food, "");
-  auto T = ctx.CreateName(Bool);             REGISTER_SYMBOL(T);
-  //auto F = ctx.CreateName(Bool);             REGISTER_SYMBOL(F);
+  auto Bool = ctx.CreateSort();                   RegisterSort(Bool, "");
+  auto Food = ctx.CreateSort();                   RegisterSort(Food, "");
+  auto T = ctx.CreateName(Bool, 0)();             REGISTER_SYMBOL(T);
+  //auto F = ctx.CreateName(Bool, 0)();           REGISTER_SYMBOL(F);
   auto Aussie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Aussie);
   auto Italian = ctx.CreateFunction(Bool, 0)();   REGISTER_SYMBOL(Italian);
   auto Eats = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Eats);
   auto Meat = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Meat);
   auto Veggie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Veggie);
-  auto roo = ctx.CreateName(Food);           REGISTER_SYMBOL(roo);
+  auto roo = ctx.CreateName(Food, 0)();           REGISTER_SYMBOL(roo);
   auto x = ctx.CreateVariable(Food);              REGISTER_SYMBOL(x);
   solver.AddClause(( Meat(roo) == T ).as_clause());
   solver.AddClause(( Meat(x) != T || Eats(x) != T || Veggie != T ).as_clause());
@@ -205,7 +205,7 @@ TEST(SolverTest, Bool) {
   Context ctx;
   Solver& solver = *ctx.solver();
   auto BOOL = ctx.sf()->CreateSort();
-  auto T = ctx.CreateName(BOOL);
+  auto T = ctx.CreateName(BOOL, 0)();
   auto P = ctx.CreateFunction(BOOL, 0)();
   {
     EXPECT_FALSE(solver.Entails(0, *(P == T)->NF(ctx.sf(), ctx.tf())));

@@ -7,12 +7,12 @@ Sort BOOL
 Variable x -> ENTITY
 Variable y -> ENTITY
 
-Name Jesus -> ENTITY
-Name Mary -> ENTITY
-Name Joe -> ENTITY
-Name HolyGhost -> ENTITY
-Name God -> ENTITY
-Name True -> BOOL
+Name Jesus/0 -> ENTITY
+Name Mary/0 -> ENTITY
+Name Joe/0 -> ENTITY
+Name HolyGhost/0 -> ENTITY
+Name God/0 -> ENTITY
+Name True/0 -> BOOL
 
 Function fatherOf/1 -> ENTITY
 Function motherOf/1 -> ENTITY

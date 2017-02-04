@@ -171,10 +171,10 @@ class Grounder {
     return names_;
   }
 
-  Term CreateName(Symbol::Sort sort) {
+  Term CreateName(Symbol::Sort sort, Symbol::Arity arity) {
     TermSet& ns = owned_names_[sort];
     if (ns.empty()) {
-      return tf_->CreateTerm(sf_->CreateName(sort));
+      return tf_->CreateTerm(sf_->CreateName(sort, arity));
     } else {
       auto it = ns.begin();
       const Term n = *it;
@@ -506,7 +506,7 @@ class Grounder {
         plus_[sort] = n;
         n -= m;
         while (n-- > 0) {
-          added += names_.insert(CreateName(sort));
+          added += names_.insert(CreateName(sort, 0));
         }
       }
     }

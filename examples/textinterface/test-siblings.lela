@@ -7,13 +7,13 @@ Variable x -> HUMAN
 Variable y -> HUMAN
 Variable z -> HUMAN
 
-Name Mary -> HUMAN
-Name Mia -> HUMAN
-Name Frank -> HUMAN
-Name Fred -> HUMAN
-Name Sally -> HUMAN
-Name Sonny -> HUMAN
-Name T -> BOOL
+Name Mary/0 -> HUMAN
+Name Mia/0 -> HUMAN
+Name Frank/0 -> HUMAN
+Name Fred/0 -> HUMAN
+Name Sally/0 -> HUMAN
+Name Sonny/0 -> HUMAN
+Name T/0 -> BOOL
 
 Function fatherOf/1 -> HUMAN
 Function motherOf/1 -> HUMAN

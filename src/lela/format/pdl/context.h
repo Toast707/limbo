@@ -39,12 +39,9 @@ struct DefaultLogger {
   };
 
   struct RegisterNameData : public RegisterData {
-    RegisterNameData(const std::string& id, const std::string& sort_id) : RegisterData(id), sort_id(sort_id) {}
-    const std::string sort_id;
-  };
-
-  struct RegisterVariableData : public RegisterData {
-    RegisterVariableData(const std::string& id, const std::string& sort_id) : RegisterData(id), sort_id(sort_id) {}
+    RegisterNameData(const std::string& id, Symbol::Arity arity, const std::string& sort_id)
+        : RegisterData(id), arity(arity), sort_id(sort_id) {}
+    Symbol::Arity arity;
     const std::string sort_id;
   };
 
@@ -52,6 +49,11 @@ struct DefaultLogger {
     RegisterFunctionData(const std::string& id, Symbol::Arity arity, const std::string& sort_id)
         : RegisterData(id), arity(arity), sort_id(sort_id) {}
     Symbol::Arity arity;
+    const std::string sort_id;
+  };
+
+  struct RegisterVariableData : public RegisterData {
+    RegisterVariableData(const std::string& id, const std::string& sort_id) : RegisterData(id), sort_id(sort_id) {}
     const std::string sort_id;
   };
 
@@ -107,25 +109,25 @@ class Context {
   }
 
   Symbol::Sort CreateSort() { return sf()->CreateSort(); }
-  Term CreateVariable(Symbol::Sort sort) { return tf()->CreateTerm(sf()->CreateVariable(sort)); }
-  Term CreateName(Symbol::Sort sort) { return tf()->CreateTerm(sf()->CreateName(sort)); }
+  Symbol CreateName(Symbol::Sort sort, Symbol::Arity arity) { return sf()->CreateName(sort, arity); }
   Symbol CreateFunction(Symbol::Sort sort, Symbol::Arity arity) { return sf()->CreateFunction(sort, arity); }
+  Term CreateVariable(Symbol::Sort sort) { return tf()->CreateTerm(sf()->CreateVariable(sort)); }
   Term CreateTerm(Symbol symbol, const std::vector<Term>& args) { return tf()->CreateTerm(symbol, args); }
 
   bool IsRegisteredSort(const std::string& id) const { return sorts_.Registered(id); }
-  bool IsRegisteredVariable(const std::string& id) const { return vars_.Registered(id); }
   bool IsRegisteredName(const std::string& id) const { return names_.Registered(id); }
   bool IsRegisteredFunction(const std::string& id) const { return funs_.Registered(id); }
+  bool IsRegisteredVariable(const std::string& id) const { return vars_.Registered(id); }
   bool IsRegisteredMetaVariable(const std::string& id) const { return meta_vars_.Registered(id); }
   bool IsRegisteredFormula(const std::string& id) const { return formulas_.Registered(id); }
   bool IsRegisteredTerm(const std::string& id) const {
-    return IsRegisteredVariable(id) || IsRegisteredName(id) || IsRegisteredFunction(id) || IsRegisteredMetaVariable(id);
+    return IsRegisteredName(id) || IsRegisteredFunction(id) || IsRegisteredVariable(id) || IsRegisteredMetaVariable(id);
   }
 
   Symbol::Sort LookupSort(const std::string& id) const { return sorts_.Find(id); }
-  Term LookupVariable(const std::string& id) const { return vars_.Find(id); }
-  Term LookupName(const std::string& id) const { return names_.Find(id); }
+  Symbol LookupName(const std::string& id) const { return names_.Find(id); }
   Symbol LookupFunction(const std::string& id) const { return funs_.Find(id); }
+  Term LookupVariable(const std::string& id) const { return vars_.Find(id); }
   Term LookupMetaVariable(const std::string& id) const { return meta_vars_.Find(id); }
   const Formula& LookupFormula(const std::string& id) const { return *formulas_.Find(id); }
 
@@ -136,6 +138,26 @@ class Context {
     logger_(DefaultLogger::RegisterSortData(id));
   }
 
+  void RegisterName(const std::string& id, int arity, const std::string& sort_id) {
+    if (IsRegisteredName(id))
+      throw std::domain_error(id);
+    const Symbol::Sort sort = LookupSort(sort_id);
+    const Symbol sym = CreateName(sort, arity);
+    names_.Register(id, sym);
+    lela::format::output::RegisterSymbol(sym, id);
+    logger_(DefaultLogger::RegisterNameData(id, arity, sort_id));
+  }
+
+  void RegisterFunction(const std::string& id, int arity, const std::string& sort_id) {
+    if (IsRegisteredFunction(id))
+      throw std::domain_error(id);
+    const Symbol::Sort sort = LookupSort(sort_id);
+    const Symbol sym = CreateFunction(sort, arity);
+    funs_.Register(id, sym);
+    lela::format::output::RegisterSymbol(sym, id);
+    logger_(DefaultLogger::RegisterFunctionData(id, arity, sort_id));
+  }
+
   void RegisterVariable(const std::string& id, const std::string& sort_id) {
     if (IsRegisteredVariable(id))
       throw std::domain_error(id);
@@ -144,26 +166,6 @@ class Context {
     vars_.Register(id, var);
     lela::format::output::RegisterSymbol(var.symbol(), id);
     logger_(DefaultLogger::RegisterVariableData(id, sort_id));
-  }
-
-  void RegisterName(const std::string& id, const std::string& sort_id) {
-    if (IsRegisteredName(id))
-      throw std::domain_error(id);
-    const Symbol::Sort sort = LookupSort(sort_id);
-    const Term name = CreateName(sort);
-    names_.Register(id, name);
-    lela::format::output::RegisterSymbol(name.symbol(), id);
-    logger_(DefaultLogger::RegisterNameData(id, sort_id));
-  }
-
-  void RegisterFunction(const std::string& id, int arity, const std::string& sort_id) {
-    if (IsRegisteredFunction(id))
-      throw std::domain_error(id);
-    const Symbol::Sort sort = LookupSort(sort_id);
-    const Symbol fun = CreateFunction(sort, arity);
-    funs_.Register(id, fun);
-    lela::format::output::RegisterSymbol(fun, id);
-    logger_(DefaultLogger::RegisterFunctionData(id, arity, sort_id));
   }
 
   void RegisterMetaVariable(const std::string& id, Term t) {
@@ -228,9 +230,9 @@ class Context {
   Logger                 logger_;
   Callback               callback_;
   Registry<Symbol::Sort> sorts_;
-  Registry<Term>         vars_;
-  Registry<Term>         names_;
+  Registry<Symbol>       names_;
   Registry<Symbol>       funs_;
+  Registry<Term>         vars_;
   Registry<Term>         meta_vars_;
   Registry<Formula::Ref> formulas_;
   KnowledgeBase          kb_;

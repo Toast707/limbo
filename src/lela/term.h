@@ -61,27 +61,28 @@ class Symbol {
 
     static void Reset() { instance_ = nullptr; }
 
-    static Symbol CreateName(Id id, Sort sort) {
+    static Symbol CreateName(Id id, Sort sort, Arity arity) {
       assert(id > 0);
-      return Symbol(id, sort, 0);
-    }
-
-    static Symbol CreateVariable(Id id, Sort sort) {
-      assert(id > 0);
-      id = -1 * (2 * id);
-      return Symbol(id, sort, 0);
+      id = (id << 2) | 0;
+      return Symbol(id, sort, arity);
     }
 
     static Symbol CreateFunction(Id id, Sort sort, Arity arity) {
       assert(id > 0);
-      id = -1 * (2 * id + 1);
+      id = (id << 2) | 1;
       return Symbol(id, sort, arity);
     }
 
+    static Symbol CreateVariable(Id id, Sort sort) {
+      assert(id > 0);
+      id = (id << 2) | 2;
+      return Symbol(id, sort, 0);
+    }
+
     Sort   CreateSort()                           { return last_sort_++; }
-    Symbol CreateName(Sort sort)                  { return CreateName(++last_name_, sort); }
-    Symbol CreateVariable(Sort sort)              { return CreateVariable(++last_variable_, sort); }
+    Symbol CreateName(Sort sort, Arity arity)     { return CreateName(++last_name_, sort, arity); }
     Symbol CreateFunction(Sort sort, Arity arity) { return CreateFunction(++last_function_, sort, arity); }
+    Symbol CreateVariable(Sort sort)              { return CreateVariable(++last_variable_, sort); }
 
    private:
     Factory() = default;
@@ -104,16 +105,13 @@ class Symbol {
 
   internal::hash_t hash() const { return internal::fnv1a_hash(id_); }
 
-  bool name()     const { return id_ > 0; }
-  bool variable() const { return id_ < 0 && ((-id_) % 2) == 0; }
-  bool function() const { return id_ < 0 && ((-id_) % 2) != 0; }
+  bool name()     const { return (id_ & (1 | 2)) == 0; }
+  bool function() const { return (id_ & (1 | 2)) == 1; }
+  bool variable() const { return (id_ & (1 | 2)) == 2; }
 
   Id id() const {
     assert(function() || name() || variable());
-    if (name())           return id_;
-    else if (variable())  return (-1 * id_) / 2;
-    else if (function())  return (-1 * id_ - 1) / 2;
-    else                  return 0;
+    return id_ >> 2;
   }
 
   Sort sort() const { return sort_; }
@@ -123,7 +121,6 @@ class Symbol {
   Symbol(Id id, Sort sort, Arity arity) : id_(id), sort_(sort), arity_(arity) {
     assert(sort >= 0);
     assert(arity >= 0);
-    assert(!function() || !variable() || arity == 0);
   }
 
   const Id id_;
@@ -173,17 +170,15 @@ class Term {
   friend class Literal;
 
   struct Data {
-    Data(Symbol symbol, const Vector& args) : symbol_(symbol), args_(args), hash_(calc_hash()) {}
+    Data(Symbol symbol, const Vector& args) : symbol_(symbol), args_(args) {}
 
     bool operator==(const Data& d) const { return symbol_ == d.symbol_ && args_ == d.args_; }
     bool operator!=(const Data& s) const { return !(*this == s); }
 
     Symbol symbol_;
     Vector args_;
-    internal::hash_t hash_;
 
-   private:
-    internal::hash_t calc_hash() const {
+    internal::hash_t hash() const {
       internal::hash_t h = symbol_.hash();
       for (const lela::Term t : args_) {
         h ^= t.hash();
@@ -246,7 +241,7 @@ class Term::Factory : private Singleton<Factory> {
 
   Factory() = default;
  private:
-  struct DataPtrHash   { std::size_t operator()(const Term::Data* d) const { return d->hash_; } };
+  struct DataPtrHash   { std::size_t operator()(const Term::Data* d) const { return d->hash(); } };
   struct DataPtrEquals { std::size_t operator()(const Term::Data* a, const Term::Data* b) const { return *a == *b; } };
 
   Factory(const Factory&) = delete;

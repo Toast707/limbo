@@ -4,15 +4,15 @@
 Call: disable_query_logging()
 
 Sort BOOL
-Name T -> BOOL
+Name T/0 -> BOOL
 
 Sort POS
-Name p00, p10, p20, p30, p40, p50,
-     p01, p11, p21, p31, p41, p51,
-     p02, p12, p22, p32, p42, p52,
-     p03, p13, p23, p33, p43, p53,
-     p04, p14, p24, p34, p44, p54,
-     p05, p15, p25, p35, p45, p55 -> POS
+Name p00/0, p10/0, p20/0, p30/0, p40/0, p50/0,
+     p01/0, p11/0, p21/0, p31/0, p41/0, p51/0,
+     p02/0, p12/0, p22/0, p32/0, p42/0, p52/0,
+     p03/0, p13/0, p23/0, p33/0, p43/0, p53/0,
+     p04/0, p14/0, p24/0, p34/0, p44/0, p54/0,
+     p05/0, p15/0, p25/0, p35/0, p45/0, p55/0 -> POS
 Var p, q -> POS
 Fun field/1 -> BOOL
 Fun n/1, e/1, s/1, w/1, ne/1, se/1, sw/1, nw/1 -> POS
@@ -79,7 +79,7 @@ KB: nw(p15)=p04 KB: nw(p25)=p14 KB: nw(p35)=p24 KB: nw(p45)=p34 KB: nw(p55)=p44
 
 Sort SHIP
 Var x, y -> SHIP
-Name two, three -> SHIP
+Name two/0, three/0 -> SHIP
 Fun head/1 -> POS
 Fun body/1 -> POS
 Fun tail/1 -> POS

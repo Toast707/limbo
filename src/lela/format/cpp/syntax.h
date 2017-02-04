@@ -77,14 +77,14 @@ class Context {
   Symbol::Sort CreateSort() {
     return sf()->CreateSort();
   }
-  HiTerm CreateName(Symbol::Sort sort) {
-    return HiTerm(tf()->CreateTerm(sf()->CreateName(sort)));
-  }
-  HiTerm CreateVariable(Symbol::Sort sort) {
-    return HiTerm(tf()->CreateTerm(sf()->CreateVariable(sort)));
+  HiSymbol CreateName(Symbol::Sort sort, Symbol::Arity arity) {
+    return HiSymbol(tf(), sf()->CreateName(sort, arity));
   }
   HiSymbol CreateFunction(Symbol::Sort sort, Symbol::Arity arity) {
     return HiSymbol(tf(), sf()->CreateFunction(sort, arity));
+  }
+  HiTerm CreateVariable(Symbol::Sort sort) {
+    return HiTerm(tf()->CreateTerm(sf()->CreateVariable(sort)));
   }
 
   void AddClause(const Formula& phi) {

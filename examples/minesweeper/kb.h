@@ -56,7 +56,7 @@ class KnowledgeBase {
         Bool(ctx_.CreateSort()),
         XPos(ctx_.CreateSort()),
         YPos(ctx_.CreateSort()),
-        T(ctx_.CreateName(Bool)),
+        T(ctx_.CreateName(Bool, 0)()),
         Mine(ctx_.CreateFunction(Bool, 2)) {
     lela::format::output::RegisterSort(Bool, "");
     lela::format::output::RegisterSort(XPos, "");
@@ -65,14 +65,14 @@ class KnowledgeBase {
     lela::format::output::RegisterSymbol(Mine, "Mine");
     X.resize(g_->width());
     for (size_t i = 0; i < g_->width(); ++i) {
-      X[i] = ctx_.CreateName(XPos);
+      X[i] = ctx_.CreateName(XPos, 0)();
       std::stringstream ss;
       ss << "#X" << i;
       lela::format::output::RegisterSymbol(X[i].symbol(), ss.str());
     }
     Y.resize(g_->height());
     for (size_t i = 0; i < g_->height(); ++i) {
-      Y[i] = ctx_.CreateName(YPos);
+      Y[i] = ctx_.CreateName(YPos, 0)();
       std::stringstream ss;
       ss << "#Y" << i;
       lela::format::output::RegisterSymbol(Y[i].symbol(), ss.str());

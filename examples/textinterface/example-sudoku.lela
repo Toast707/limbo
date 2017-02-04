@@ -5,7 +5,7 @@
 Call: disable_query_logging()
 
 Sort NAME
-Name n1, n2, n3, n4, n5, n6, n7, n8, n9 -> NAME
+Name n1/0, n2/0, n3/0, n4/0, n5/0, n6/0, n7/0, n8/0, n9/0 -> NAME
 Var n, x, y -> NAME
 
 // val(x,y)=n is the number at a coordinate.
@@ -80,20 +80,20 @@ for X in n1,n2,n3,n4,n5,n6,n7,n8,n9 -> NAME  true
 // A few different Sudoku games are defined below. To choose one of them, set
 // the 'game' accordingly.
 Sort GAME
-Name wiki1,
-    mo1, mo2,
-    other1, other2,
-    top1465_77,
-    menneske1, menneske2, menneske3, menneske4,
-    washpost11, washpost12,
-    washpost21, washpost22,
-    washpost31, washpost32, washpost33, washpost34,
-    washpost41, washpost42, washpost43, washpost44, washpost45,
-    washpost51, washpost52, washpost53,
-    washpostE1, washpostE2, washpostE3,
-    nytimesE1, nytimesM1, nytimesH1,
-    nytimesE2, nytimesM2, nytimesH2,
-    szH1 -> GAME
+Name wiki1/0,
+    mo1/0, mo2/0,
+    other1/0, other2/0,
+    top1465_77/0,
+    menneske1/0, menneske2/0, menneske3/0, menneske4/0,
+    washpost11/0, washpost12/0,
+    washpost21/0, washpost22/0,
+    washpost31/0, washpost32/0, washpost33/0, washpost34/0,
+    washpost41/0, washpost42/0, washpost43/0, washpost44/0, washpost45/0,
+    washpost51/0, washpost52/0, washpost53/0,
+    washpostE1/0, washpostE2/0, washpostE3/0,
+    nytimesE1/0, nytimesM1/0, nytimesH1/0,
+    nytimesE2/0, nytimesM2/0, nytimesH2/0,
+    szH1/0 -> GAME
 Fun game/0 -> GAME
 KB: game=washpost52
 

@@ -28,10 +28,10 @@ TEST(TermTest, general) {
   EXPECT_EQ(s2, s2);
   EXPECT_TRUE(s1 != s2);
 
-  const Term n1 = tf.CreateTerm(Symbol::Factory::CreateName(1, s1));
-  const Term n2 = tf.CreateTerm(Symbol::Factory::CreateName(2, s1));
-  EXPECT_TRUE(n1 == tf.CreateTerm(Symbol::Factory::CreateName(1, s1)) && n2 != tf.CreateTerm(Symbol::Factory::CreateName(1, s1)));
-  EXPECT_TRUE(n1 != tf.CreateTerm(Symbol::Factory::CreateName(2, s1)) && n2 == tf.CreateTerm(Symbol::Factory::CreateName(2, s1)));
+  const Term n1 = tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0));
+  const Term n2 = tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0));
+  EXPECT_TRUE(n1 == tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0)) && n2 != tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0)));
+  EXPECT_TRUE(n1 != tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0)) && n2 == tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0)));
   EXPECT_TRUE(!n1.null() && n1.name() && !n1.variable() && !n1.function());
   EXPECT_TRUE(!n2.null() && n2.name() && !n2.variable() && !n2.function());
   EXPECT_EQ(n1.symbol().id(), 1);

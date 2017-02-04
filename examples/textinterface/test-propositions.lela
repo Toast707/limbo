@@ -2,7 +2,7 @@
 
 Sort BOOL
 
-Name T -> BOOL
+Name T/0 -> BOOL
 Fun p/0 -> BOOL
 Fun q/0 -> BOOL
 

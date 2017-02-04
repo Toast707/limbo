@@ -17,8 +17,8 @@ TEST(BloomFilterTest, Subset_Contains) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
   const Symbol::Sort s2 = sf.CreateSort();
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));
   const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));
   const Symbol f = sf.CreateFunction(s1, 1);

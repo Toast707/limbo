@@ -103,9 +103,6 @@ class Parser {
     template<typename NullaryFunction>
     Action(NullaryFunction func) : base::shared_ptr(new function(func)) {}
 
-    //template<typename NullaryFunction>
-    //Action(NullaryFunction&& func) : base::shared_ptr(new function(std::forward<NullaryFunction>(func))) {}
-
     Result<T> Run(Context* ctx) const {
       function* f = base::get();
       if (f) {
@@ -170,9 +167,9 @@ class Parser {
   }
 
   // declaration --> sort <sort-id> [ , <sort-id>]*
-  //              |  var <id> [ , <id> ]* -> <sort-id>
-  //              |  name <id> [ , <id> ]* -> <sort-id>
+  //              |  name <id> [ , <id> ]* / <arity> -> <sort-id>
   //              |  fun <id> [ , <id> ]* / <arity> -> <sort-id>
+  //              |  var <id> [ , <id> ]* -> <sort-id>
   Result<Action<>> declaration() {
     if (Is(Tok(), Token::kSort)) {
       Action<> a;
@@ -195,16 +192,18 @@ class Parser {
       } while (Is(Tok(), Token::kComma));
       return Success<Action<>>(std::move(a));
     }
-    if (Is(Tok(), Token::kVar) || Is(Tok(), Token::kName)) {
-      const bool var = Is(Tok(), Token::kVar);
-      std::vector<std::string> ids;
+    if (Is(Tok(), Token::kName) || Is(Tok(), Token::kFun)) {
+      const bool name = Is(Tok(), Token::kName);
+      std::vector<std::pair<std::string, Symbol::Arity>> ids;
       do {
         Advance();
-        if (Is(Tok(), Token::kIdentifier)) {
-          ids.push_back(Tok().val.str());
-          Advance();
+        if (Is(Tok(0), Token::kIdentifier) &&
+            Is(Tok(1), Token::kSlash) &&
+            Is(Tok(2), Token::kUint)) {
+          ids.push_back(std::make_pair(Tok(0).val.str(), std::stoi(Tok(2).val.str())));
+          Advance(3);
         } else {
-          return Error<Action<>>(LELA_MSG(var ? "Expected variable identifier" : "Expected name identifier"));
+          return Error<Action<>>(LELA_MSG(name ? "Expected name identifier" : "Expected function identifier"));
         }
       } while (Is(Tok(0), Token::kComma));
       if (Is(Tok(0), Token::kRArrow) &&
@@ -212,11 +211,17 @@ class Parser {
         const std::string sort = Tok(1).val.str();
         Advance(2);
         Action<> a;
-        for (const std::string& id : ids) {
-          a += [this, var, sort, id](Context* ctx) {
+        for (const auto& id_arity : ids) {
+          const std::string id = id_arity.first;
+          const Symbol::Arity arity = id_arity.second;
+          a += [this, name, sort, id, arity](Context* ctx) {
             if (ctx->IsRegisteredSort(sort)) {
               if (!ctx->IsRegisteredTerm(id)) {
-                var ? ctx->RegisterVariable(id, sort) : ctx->RegisterName(id, sort);
+                if (name) {
+                  ctx->RegisterName(id, arity, sort);
+                } else {
+                  ctx->RegisterFunction(id, arity, sort);
+                }
                 return Success<>();
               } else {
                 return Error<>(LELA_MSG("Term "+ id +" is already registered"));
@@ -231,17 +236,15 @@ class Parser {
         return Error<Action<>>(LELA_MSG("Expected arrow and sort identifier"));
       }
     }
-    if (Is(Tok(), Token::kFun)) {
-      std::vector<std::pair<std::string, Symbol::Arity>> ids;
+    if (Is(Tok(), Token::kVar)) {
+      std::vector<std::string> ids;
       do {
         Advance();
-        if (Is(Tok(0), Token::kIdentifier) &&
-            Is(Tok(1), Token::kSlash) &&
-            Is(Tok(2), Token::kUint)) {
-          ids.push_back(std::make_pair(Tok(0).val.str(), std::stoi(Tok(2).val.str())));
-          Advance(3);
+        if (Is(Tok(), Token::kIdentifier)) {
+          ids.push_back(Tok().val.str());
+          Advance();
         } else {
-          return Error<Action<>>(LELA_MSG("Expected function identifier"));
+          return Error<Action<>>(LELA_MSG("Expected variable identifier"));
         }
       } while (Is(Tok(0), Token::kComma));
       if (Is(Tok(0), Token::kRArrow) &&
@@ -249,13 +252,11 @@ class Parser {
         const std::string sort = Tok(1).val.str();
         Advance(2);
         Action<> a;
-        for (const auto& id_arity : ids) {
-          const std::string id = id_arity.first;
-          const Symbol::Arity arity = id_arity.second;
-          a += [this, sort, id, arity](Context* ctx) {
+        for (const std::string& id : ids) {
+          a += [this, sort, id](Context* ctx) {
             if (ctx->IsRegisteredSort(sort)) {
               if (!ctx->IsRegisteredTerm(id)) {
-                ctx->RegisterFunction(id, arity, sort);
+                ctx->RegisterVariable(id, sort);
                 return Success<>();
               } else {
                 return Error<>(LELA_MSG("Term "+ id +" is already registered"));
@@ -273,24 +274,22 @@ class Parser {
     return Unapplicable<Action<>>(LELA_MSG("Expected 'Sort', 'Var', 'Name' or 'Fun'"));
   }
 
-  // atomic_term --> x
-  //              |  n
+  // atomic_term --> n
   //              |  f
+  //              |  x
   Result<Action<Term>> atomic_term() {
     if (Is(Tok(), Token::kIdentifier)) {
       const std::string id = Tok().val.str();
       Advance();
       return Success<Action<Term>>([this, id](Context* ctx) {
-        if (ctx->IsRegisteredVariable(id)) {
-          return Success<Term>(ctx->LookupVariable(id));
-        } else if (ctx->IsRegisteredName(id)) {
-          return Success<Term>(ctx->LookupName(id));
-        } else if (ctx->IsRegisteredFunction(id)) {
-          Symbol f = ctx->LookupFunction(id);
-          if (f.arity() != 0) {
+        if (ctx->IsRegisteredName(id) || ctx->IsRegisteredFunction(id)) {
+          Symbol s = ctx->IsRegisteredName(id) ? ctx->LookupName(id) : ctx->LookupFunction(id);
+          if (s.arity() != 0) {
             return Error<Term>(LELA_MSG("Wrong number of arguments for "+ id));
           }
-          return Success(ctx->CreateTerm(f, {}));
+          return Success(ctx->CreateTerm(s, {}));
+        } else if (ctx->IsRegisteredVariable(id)) {
+          return Success<Term>(ctx->LookupVariable(id));
         } else if (ctx->IsRegisteredMetaVariable(id)) {
           return Success(ctx->LookupMetaVariable(id));
         } else {
@@ -301,10 +300,11 @@ class Parser {
     return Error<Action<Term>>(LELA_MSG("Expected a declared variable/name/function identifier"));
   }
 
-  // term --> x
-  //       |  n
+  // term --> n
+  //       |  n(term, ..., term)
   //       |  f
   //       |  f(term, ..., term)
+  //       |  x
   Result<Action<Term>> term() {
     if (Is(Tok(), Token::kIdentifier)) {
       const std::string id = Tok().val.str();
@@ -330,13 +330,9 @@ class Parser {
         }
       }
       return Success<Action<Term>>([this, id, args_a = args](Context* ctx) {
-        if (ctx->IsRegisteredVariable(id)) {
-          return Success<Term>(ctx->LookupVariable(id));
-        } else if (ctx->IsRegisteredName(id)) {
-          return Success<Term>(ctx->LookupName(id));
-        } else if (ctx->IsRegisteredFunction(id)) {
-          Symbol f = ctx->LookupFunction(id);
-          if (f.arity() != args_a.size()) {
+        if (ctx->IsRegisteredName(id) || ctx->IsRegisteredFunction(id)) {
+          Symbol s = ctx->IsRegisteredName(id) ? ctx->LookupName(id) : ctx->LookupFunction(id);
+          if (s.arity() != args_a.size()) {
             return Error<Term>(LELA_MSG("Wrong number of arguments for "+ id));
           }
           Term::Vector args;
@@ -348,7 +344,9 @@ class Parser {
               return Error<Term>(LELA_MSG("Expected argument term"), t);
             }
           }
-          return Success(ctx->CreateTerm(f, args));
+          return Success(ctx->CreateTerm(s, args));
+        } else if (ctx->IsRegisteredVariable(id)) {
+          return Success<Term>(ctx->LookupVariable(id));
         } else if (ctx->IsRegisteredMetaVariable(id)) {
           return Success(ctx->LookupMetaVariable(id));
         } else {

@@ -2,7 +2,7 @@
 
 Sort OBJ
 Var x -> OBJ
-Name n -> OBJ
+Name n/0 -> OBJ
 
 Query: n = n
 Query: Ex x x = x
@@ -15,8 +15,8 @@ Refute: Fa x K<0> x = n
 
 Sort BOOL
 Fun p/1 -> BOOL
-Name m -> OBJ
-Name T -> BOOL
+Name m/0 -> OBJ
+Name T/0 -> BOOL
 
 KB: p(m) = T v p(n) = T
 

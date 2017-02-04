@@ -15,8 +15,8 @@ TEST(LiteralTest, general) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
   const Symbol::Sort s2 = sf.CreateSort();
-  const Term n1 = tf.CreateTerm(Symbol::Factory::CreateName(1, s1));
-  //const Term n2 = tf.CreateTerm(Symbol::Factory::CreateName(2, s1));
+  const Term n1 = tf.CreateTerm(Symbol::Factory::CreateName(1, s1, 0));
+  //const Term n2 = tf.CreateTerm(Symbol::Factory::CreateName(2, s1, 0));
   const Term x1 = tf.CreateTerm(Symbol::Factory::CreateVariable(1, s1));
   const Term x2 = tf.CreateTerm(Symbol::Factory::CreateVariable(2, s1));
   const Term f1 = tf.CreateTerm(Symbol::Factory::CreateFunction(1, s1, 1), {n1});

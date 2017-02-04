@@ -26,7 +26,7 @@ class KnowledgeBase {
     lela::format::output::RegisterSymbol(val_, "val");
     using namespace lela::format::cpp;
     for (std::size_t i = 1; i <= 9; ++i) {
-      vals_.push_back(ctx_.CreateName(VAL_));
+      vals_.push_back(ctx_.CreateName(VAL_, 0)());
       std::stringstream ss;
       ss << i;
       lela::format::output::RegisterSymbol(vals_.back().symbol(), ss.str());

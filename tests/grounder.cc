@@ -19,9 +19,9 @@ TEST(GrounderTest, Ground_SplitTerms_Names) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();                  RegisterSort(s1, "");
   const Symbol::Sort s2 = sf.CreateSort();                  RegisterSort(s2, "");
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));         RegisterSymbol(n1.symbol(), "n1");
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));         RegisterSymbol(n2.symbol(), "n2");
-  const Term n3 = tf.CreateTerm(sf.CreateName(s2));         RegisterSymbol(n3.symbol(), "n3");
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));      RegisterSymbol(n1.symbol(), "n1");
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));      RegisterSymbol(n2.symbol(), "n2");
+  const Term n3 = tf.CreateTerm(sf.CreateName(s2, 0));      RegisterSymbol(n3.symbol(), "n3");
   const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));     RegisterSymbol(x1.symbol(), "x1");
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));     RegisterSymbol(x2.symbol(), "x2");
   const Term x3 = tf.CreateTerm(sf.CreateVariable(s2));     RegisterSymbol(x3.symbol(), "x3");
@@ -324,9 +324,9 @@ TEST(GrounderTest, Assignments) {
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();                  RegisterSort(s1, "");
   const Symbol::Sort s2 = sf.CreateSort();                  RegisterSort(s2, "");
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));         RegisterSymbol(n1.symbol(), "n1");
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));         RegisterSymbol(n2.symbol(), "n2");
-  const Term n3 = tf.CreateTerm(sf.CreateName(s2));         RegisterSymbol(n3.symbol(), "n3");
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));      RegisterSymbol(n1.symbol(), "n1");
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));      RegisterSymbol(n2.symbol(), "n2");
+  const Term n3 = tf.CreateTerm(sf.CreateName(s2, 0));      RegisterSymbol(n3.symbol(), "n3");
   const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));     RegisterSymbol(x1.symbol(), "x1");
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));     RegisterSymbol(x2.symbol(), "x2");
   const Term x3 = tf.CreateTerm(sf.CreateVariable(s2));     RegisterSymbol(x3.symbol(), "x3");
@@ -392,8 +392,8 @@ TEST(GrounderTest, Ground_SplitNames) {
   const Symbol::Sort Human = sf.CreateSort();                           RegisterSort(Human, "");
   const Symbol::Sort Animal = sf.CreateSort();                          RegisterSort(Animal, "");
   //
-  const Term T          = tf.CreateTerm(sf.CreateName(Bool));           RegisterSymbol(T.symbol(), "T");
-  //const Term F          = tf.CreateTerm(sf.CreateName(Bool));
+  const Term T          = tf.CreateTerm(sf.CreateName(Bool, 0));        RegisterSymbol(T.symbol(), "T");
+  //const Term F          = tf.CreateTerm(sf.CreateName(Bool, 0));
   //
   const Symbol IsHuman  = sf.CreateFunction(Bool, 1);                   RegisterSymbol(IsHuman, "IsHuman");
   const Term x          = tf.CreateTerm(sf.CreateVariable(Human));      RegisterSymbol(x.symbol(), "x");
@@ -453,8 +453,8 @@ TEST(GrounderTest, Ground_SplitNames_iterated) {
   const Symbol::Sort Human = sf.CreateSort();                           RegisterSort(Human, "");
   const Symbol::Sort Animal = sf.CreateSort();                          RegisterSort(Animal, "");
   //
-  const Term T          = tf.CreateTerm(sf.CreateName(Bool));           RegisterSymbol(T.symbol(), "T");
-  //const Term F          = tf.CreateTerm(sf.CreateName(Bool));
+  const Term T          = tf.CreateTerm(sf.CreateName(Bool, 0));        RegisterSymbol(T.symbol(), "T");
+  //const Term F          = tf.CreateTerm(sf.CreateName(Bool, 0));
   //
   const Symbol IsHuman  = sf.CreateFunction(Bool, 1);                   RegisterSymbol(IsHuman, "IsHuman");
   const Term x          = tf.CreateTerm(sf.CreateVariable(Human));      RegisterSymbol(x.symbol(), "x");

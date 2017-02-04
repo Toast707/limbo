@@ -2,9 +2,9 @@
 
 Sort OBJ, BOOL
 Var x -> OBJ
-Name n -> OBJ
-Name m -> OBJ
-Name T -> BOOL
+Name n/0 -> OBJ
+Name m/0 -> OBJ
+Name T/0 -> BOOL
 Fun p/1 -> BOOL
 
 Let true := T = T

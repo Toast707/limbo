@@ -258,7 +258,7 @@ struct BattleshipCallbacks {
     const bool is_water = !bs_->Fire(p);
     const lela::Term Water = ctx->CreateTerm(ctx->LookupFunction("water"), {t});
     const lela::Term Fired = ctx->CreateTerm(ctx->LookupFunction("fired"), {t});
-    const lela::Term True = ctx->LookupName("T");
+    const lela::Term True = ctx->CreateTerm(ctx->LookupName("T"), {});
     ctx->kb()->Add(lela::Clause{is_water ? lela::Literal::Eq(Water, True) : lela::Literal::Neq(Water, True)});
     ctx->kb()->Add(lela::Clause{lela::Literal::Eq(Fired, True)});
   }

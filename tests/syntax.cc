@@ -23,7 +23,7 @@ TEST(Syntax, general) {
   Context ctx;
   Term::Factory& tf = *ctx.tf();
   auto BOOL = ctx.CreateSort();
-  auto True = ctx.CreateName(BOOL);                 REGISTER_SYMBOL(True);
+  auto True = ctx.CreateName(BOOL, 0)();            REGISTER_SYMBOL(True);
   auto HUMAN = ctx.CreateSort();
   auto Father = ctx.CreateFunction(HUMAN, 1);       REGISTER_SYMBOL(Father);
   auto Mother = ctx.CreateFunction(HUMAN, 1);       REGISTER_SYMBOL(Mother);

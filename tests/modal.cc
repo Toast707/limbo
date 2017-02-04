@@ -23,13 +23,13 @@ TEST(SolverTest, ECAI2016Sound) {
   KnowledgeBase kb(ctx.sf(), ctx.tf());
   auto Bool = ctx.CreateSort();                   RegisterSort(Bool, "");
   auto Food = ctx.CreateSort();                   RegisterSort(Food, "");
-  auto T = ctx.CreateName(Bool);                  REGISTER_SYMBOL(T);
+  auto T = ctx.CreateName(Bool, 0)();             REGISTER_SYMBOL(T);
   auto Aussie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Aussie);
   auto Italian = ctx.CreateFunction(Bool, 0)();   REGISTER_SYMBOL(Italian);
   auto Eats = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Eats);
   auto Meat = ctx.CreateFunction(Bool, 1);        REGISTER_SYMBOL(Meat);
   auto Veggie = ctx.CreateFunction(Bool, 0)();    REGISTER_SYMBOL(Veggie);
-  auto roo = ctx.CreateName(Food);                REGISTER_SYMBOL(roo);
+  auto roo = ctx.CreateName(Food, 0)();           REGISTER_SYMBOL(roo);
   auto x = ctx.CreateVariable(Food);              REGISTER_SYMBOL(x);
   Formula::split_level k = 1;
   Formula::split_level l = 1;

@@ -24,8 +24,8 @@ TEST(FormulaTest, substitution) {
   Symbol::Factory& sf = *Symbol::Factory::Instance();
   Term::Factory& tf = *Term::Factory::Instance();
   const Symbol::Sort s1 = sf.CreateSort();
-  const Term n1 = tf.CreateTerm(sf.CreateName(s1));
-  const Term n2 = tf.CreateTerm(sf.CreateName(s1));
+  const Term n1 = tf.CreateTerm(sf.CreateName(s1, 0));
+  const Term n2 = tf.CreateTerm(sf.CreateName(s1, 0));
   const Term x1 = tf.CreateTerm(sf.CreateVariable(s1));
   const Term x2 = tf.CreateTerm(sf.CreateVariable(s1));
   const Term x3 = tf.CreateTerm(sf.CreateVariable(s1));
@@ -51,7 +51,7 @@ TEST(Formula, NF) {
   Context ctx;
   Term::Factory& tf = *ctx.tf();
   auto BOOL = ctx.CreateSort();
-  auto True = ctx.CreateName(BOOL);                 REGISTER_SYMBOL(True);
+  auto True = ctx.CreateName(BOOL, 0)();            REGISTER_SYMBOL(True);
   auto HUMAN = ctx.CreateSort();
   auto Father = ctx.CreateFunction(HUMAN, 1);       REGISTER_SYMBOL(Father);
   auto Mother = ctx.CreateFunction(HUMAN, 1);       REGISTER_SYMBOL(Mother);

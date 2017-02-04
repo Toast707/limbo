@@ -3,8 +3,8 @@
 Sort FOOD
 Sort BOOL
 
-Name T -> BOOL
-Name roo -> FOOD
+Name T/0 -> BOOL
+Name roo/0 -> FOOD
 
 Var x -> FOOD
 

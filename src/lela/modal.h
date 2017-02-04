@@ -247,7 +247,7 @@ class KnowledgeBase {
   template<typename BinaryPredicate>
   Formula::Ref ResOtherName(sphere_index p, Formula::Ref phi, Term x, SortedTermSet* names, BinaryPredicate if_no_free_vars) {
     // (x != n1 && ... && x != nK -> RES(p, phi^x_n0)^n0_x) in clausal form
-    Term n0 = spheres_[p].grounder()->CreateName(x.sort());
+    Term n0 = spheres_[p].grounder()->CreateName(x.sort(), 0);
     phi->SubstituteFree(Term::SingleSubstitution(x, n0), tf_);
     names->insert(n0);
     phi = Res(p, std::move(phi), names, if_no_free_vars);
