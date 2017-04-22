@@ -70,6 +70,21 @@ For more theoretical background see the papers linked below.
 * Improve grounding.
 * Have a look at some other KR concepts.
 
+## Installation
+
+The library is header-only and has no third-party dependencies. It suffices to
+have `src/limbo` in the include path.
+
+To compile and run the tests and demos, execute the following:
+
+```shell
+$ git submodule init
+$ git submodule update
+$ cmake .
+$ make
+$ make test
+```
+
 ## References
 
 1. Lakemeyer and Levesque. Decidable Reasoning in a Logic of Limited Belief
